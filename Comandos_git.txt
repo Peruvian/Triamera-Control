@@ -1,0 +1,19 @@
+git config --global user.name  "Abraham"   /* identificador*/
+git config --global user.email "abraham.montano@gmail.com"  /* correo github*/
+ssh-keygen  /* Genere clave para github*/
+
+git init /*inicia un repositorio */
+touch README /* crea un archivo readme*/
+
+git add README  /*agrega al archivo al repositorio*/
+
+git commit -m "comentario del commit de README" /*observaciones del archivo y modificaciones echas*/
+
+
+git remote add origin https://github.com/username/Hello-World.git   /* se coencta al repositorio github*/
+
+git push origin master /* envia las modificaciones del local al host github */
+
+
+
+
