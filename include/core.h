@@ -1,4 +1,4 @@
-#ifndef CORE_H
-#define CORE_H
+#ifndef TRIA_CORE_H
+#define TRIA_CORE_H
 
-#endif // CORE_H
+#endif // TRIA_CORE_H

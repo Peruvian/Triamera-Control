@@ -11,7 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Triamera-Control
 TEMPLATE = app
 
-
 SOURCES += \
     ../src/api.cpp \
     ../src/core.cpp

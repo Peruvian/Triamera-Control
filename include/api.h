@@ -1,4 +1,4 @@
-#ifndef API_H
-#define API_H
+#ifndef TRIA_API_H
+#define TRIA_API_H
 
-#endif // API_H
+#endif // TRIA_API_H
