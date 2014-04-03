@@ -12,8 +12,12 @@ TARGET = Triamera-Control
 TEMPLATE = app
 
 
-SOURCES +=
+SOURCES += \
+    ../src/api.cpp \
+    ../src/core.cpp
 
-HEADERS  +=
+HEADERS  += \
+    ../include/api.h \
+    ../include/core.h
 
 FORMS    +=
