@@ -3,6 +3,7 @@
 *.slo
 *.lo
 *.o
+*.exe
 *.a
 *.la
 *.lai
