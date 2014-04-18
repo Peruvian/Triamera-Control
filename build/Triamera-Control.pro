@@ -13,7 +13,8 @@ TEMPLATE = app
 
 SOURCES += \
     ../src/api.cpp \
-    ../src/core.cpp
+    ../src/core.cpp \
+    ../src/main.cpp
 
 HEADERS  += \
     ../include/api.h \
