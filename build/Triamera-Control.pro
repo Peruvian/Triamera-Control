@@ -14,10 +14,12 @@ TEMPLATE = app
 SOURCES += \
     ../src/api.cpp \
     ../src/core.cpp \
-    ../src/main.cpp
+    ../src/main.cpp \
+    ../src/core/huffman.cpp
 
 HEADERS  += \
     ../include/api.h \
-    ../include/core.h
+    ../include/core.h \
+    ../include/core/huffman.h
 
 FORMS    +=
