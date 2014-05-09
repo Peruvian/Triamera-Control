@@ -15,11 +15,13 @@ SOURCES += \
     ../src/api.cpp \
     ../src/core.cpp \
     ../src/main.cpp \
-    ../src/core/huffman.cpp
+    ../src/core/huffman.cpp \
+    ../extlibs/QLogger/QLogger.cpp
 
 HEADERS  += \
     ../include/api.h \
     ../include/core.h \
-    ../include/core/huffman.h
+    ../include/core/huffman.h \
+    ../extlibs/QLogger/QLogger.h
 
 FORMS    +=
