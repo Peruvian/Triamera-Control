@@ -2,9 +2,48 @@
 #include <QDateTime>
 #include <QTextStream>
 #include "../include/core/TRI_Logger.h"
+#include <QDebug>
 
 namespace TRI_Logger
 {
+    void TRI_Log_(const QString &module, LogLevel level, const QString &message)
+    {
+        TRI_LoggerManager *manager = TRI_LoggerManager::getInstance();
+        QMutexLocker(&manager->mutex);
+        TRI_LoggerWriter *logWriter = manager->getLogWriter(module);
+        if (logWriter and logWriter->getLeveL() <= level)
+            logWriter->write(module, message);
+    }
+
+    void TRI_Log_Trace(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, TraceLevel, message);
+    }
+
+    void TRI_Log_Debug(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, DebugLevel, message);
+    }
+
+    void TRI_Log_Info(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, InfoLevel, message);
+    }
+
+    void TRI_Log_Warning(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, WarnLevel, message);
+    }
+
+    void TRI_Log_Error(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, ErrorLevel, message);
+    }
+
+    void TRI_Log_Fatal(const QString &module, const QString &message)
+    {
+        TRI_Log_(module, FatalLevel, message);
+    }
     //TRI_LoggerManager
     TRI_LoggerManager * TRI_LoggerManager::INSTANCE = NULL;
 
@@ -35,17 +74,23 @@ namespace TRI_Logger
         return INSTANCE;
     }
 
-    bool TRI_LoggerManager::addDestination(const QString &fileDest, const QStringList &modules, LogLevel level)
+    bool TRI_LoggerManager::addDestination(const QString &fileDest, const QString &module, LogLevel level)
     {
         TRI_LoggerWriter *log;
 
-//        if (!moduleDest.contains(modules))
-//        {
-//            log = new TRI_LoggerWriter(fileDest,level);
-//            moduleDest.insert(module, log);
-//            return false;
-//        }
+        if (!moduleDest.contains(module))
+        {
+            log = new TRI_LoggerWriter(fileDest,level);
+            moduleDest.insert(module, log);
+            return false;
+        }
+        return false;
+    }
 
+    bool TRI_LoggerManager::addDestination(const QString &fileDest, const QStringList &modules, LogLevel level)
+    {
+        qDebug()<<"addDestination";
+        TRI_LoggerWriter *log;
         foreach (QString module, modules)
         {
             if (!moduleDest.contains(module))
@@ -80,6 +125,7 @@ namespace TRI_Logger
         if (!dir.exists("logs"))
             dir.mkdir("logs");
 
+        dir.cd("logs");
         QFile file(_fileName);
         QString toRemove = _fileName.section('.',-1);
         QString fileNameAux = _fileName.left(_fileName.size() - toRemove.size()-1);
@@ -89,15 +135,15 @@ namespace TRI_Logger
         if (file.size() >= MAX_SIZE)
         {
             QDateTime currentTime = QDateTime::currentDateTime();
-            newName = newName.arg(currentTime.date().toString("dd_MM_yy")).arg(currentTime.time().toString("hh_MM_SS"));
+            newName = newName.arg(currentTime.date().toString("dd_MM_yyyy")).arg(currentTime.time().toString("hh_MM_SS"));
             renamed = file.rename(_fileName,newName);
         }
 
-        file.setFileName(_fileName);
+        file.setFileName(dir.path()+"/"+_fileName);
         if (file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Append))
         {
             QTextStream out(&file);
-            QString dtFormat = QDateTime::currentDateTime().toString("dd_MM_yyy hh:mm:ss.zzz");
+            QString dtFormat = QDateTime::currentDateTime().toString("dd-MM-yyyy hh:mm:ss.zzz");
 
             if (renamed)
                 out << QString("%1 - Log Anterior %2\n").arg(dtFormat).arg(newName);
@@ -108,7 +154,4 @@ namespace TRI_Logger
             file.close();
         }
     }
-
-}
-
-
+ }
