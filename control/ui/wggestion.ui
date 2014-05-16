@@ -1,20 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>wgGestion</class>
- <widget class="QWidget" name="wgGestion" >
-  <property name="geometry" >
+ <widget class="QWidget" name="wgGestion">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>774</width>
+    <height>656</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>wgGestion</string>
+  <property name="windowTitle">
+   <string>Gestion de Personal</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <attribute name="title">
+       <string>Alta de Personal</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QTableWidget" name="grdDatos">
+           <property name="rowCount">
+            <number>0</number>
+           </property>
+           <property name="columnCount">
+            <number>8</number>
+           </property>
+           <column>
+            <property name="text">
+             <string>DNI</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Nombres</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Apellido Paterno</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Apellido Materno</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Fecha Nacimiento</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Fecha Ingreso</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Formacion</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>V</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QPushButton" name="btnAbrir">
+             <property name="text">
+              <string>Abrir Archivo</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnVerificar">
+             <property name="text">
+              <string>Verificar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnCargar">
+             <property name="text">
+              <string>Cargar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnLimpiar">
+             <property name="text">
+              <string>Limpiar</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Baja del Personal</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
