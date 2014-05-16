@@ -1,4 +1,4 @@
-#include "wggestion.h"
+#include "../include/wggestion.h"
 #include "ui_wggestion.h"
 
 wgGestion::wgGestion(QWidget *parent) :

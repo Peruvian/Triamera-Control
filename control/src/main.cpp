@@ -1,5 +1,5 @@
-#include "wggestion.h"
 #include <QApplication>
+#include "../include/wggestion.h"
 
 int main(int argc, char *argv[])
 {
