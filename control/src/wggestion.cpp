@@ -9,6 +9,12 @@ wgGestion::wgGestion(QWidget *parent) :
     ui(new Ui::wgGestion)
 {
     ui->setupUi(this);
+
+    model = new QStandardItemModel(this);
+    Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "V";
+    model->setHorizontalHeaderLabels(Header);
+    ui->grdVData->setModel(model);
+
 }
 
 wgGestion::~wgGestion()
@@ -18,13 +24,12 @@ wgGestion::~wgGestion()
 
 void wgGestion::on_btnAbrir_clicked()
 {
-    QStringList Header;
-    model = new QStandardItemModel(this);
-    ui->grdVData->setModel(model);
+    model->clear();
     QString fileName = QFileDialog::getOpenFileName (this, "Open CSV file",
                                                      QDir::currentPath(), "CSV (*.csv)");
     Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "V";
     model->setHorizontalHeaderLabels(Header);
+
     QFile file (fileName);
     if (file.open(QIODevice::ReadOnly)) {
         QString data = file.readAll();
@@ -48,6 +53,11 @@ void wgGestion::on_btnAbrir_clicked()
         }
     }
     model->removeRow(0,QModelIndex());
+    //QModelIndex index = model->index(0,7);
+    //model->setItem(0,8,QStandardItem("Hola"));
+    QStandardItem *itemV = new QStandardItem("V");
+    model->setItem(3,7,itemV);
+
 }
 
 void wgGestion::checkString(QString &temp, QChar character)

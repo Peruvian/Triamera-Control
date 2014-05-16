@@ -30,6 +30,7 @@ private:
     QList<QStringList> csv;
     QStandardItemModel *model;
     QList<QStandardItem*> standardItemList;
+    QStringList Header;
 };
 
 #endif // WGGESTION_H
