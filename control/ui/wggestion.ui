@@ -33,54 +33,7 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QTableWidget" name="grdDatos">
-           <property name="rowCount">
-            <number>0</number>
-           </property>
-           <property name="columnCount">
-            <number>8</number>
-           </property>
-           <column>
-            <property name="text">
-             <string>DNI</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Nombres</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Apellido Paterno</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Apellido Materno</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Fecha Nacimiento</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Fecha Ingreso</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Formacion</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>V</string>
-            </property>
-           </column>
-          </widget>
+          <widget class="QTableView" name="grdVData"/>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
