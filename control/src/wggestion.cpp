@@ -11,10 +11,26 @@ wgGestion::wgGestion(QWidget *parent) :
     ui->setupUi(this);
 
     model = new QStandardItemModel(this);
-    Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "V";
+    Header.clear();
+    Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "Registrado";
     model->setHorizontalHeaderLabels(Header);
     ui->grdVData->setModel(model);
 
+    //qDebug() << QSqlDatabase::drivers();
+    //QSqlDatabase db( QSqlDatabase::addDatabase( "QPSQL" ) );
+    db = new QSqlDatabase(QSqlDatabase::addDatabase("QPSQL"));
+    //db->addDatabase("QPSQL");
+    db->setHostName("localhost");
+    db->setDatabaseName("Triamera-Control");
+    db->setUserName("postgres");
+    db->setPassword("triamera");
+    db->setPort(5432);
+
+    if (!db->open())
+    {
+       QMessageBox::critical(0,"Error en Base de Datos","No se pudo establecer conexion con la base de datos", QMessageBox::Ok);
+        ui->tabWidget->setEnabled(false);
+    }
 }
 
 wgGestion::~wgGestion()
@@ -27,7 +43,8 @@ void wgGestion::on_btnAbrir_clicked()
     model->clear();
     QString fileName = QFileDialog::getOpenFileName (this, "Open CSV file",
                                                      QDir::currentPath(), "CSV (*.csv)");
-    Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "V";
+    Header.clear();
+    Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "Registrado";
     model->setHorizontalHeaderLabels(Header);
 
     QFile file (fileName);
@@ -80,6 +97,65 @@ void wgGestion::checkString(QString &temp, QChar character)
         temp.clear();
     } else {
         temp.append(character);
+    }
+
+}
+
+void wgGestion::on_btnCargar_clicked()
+{
+    QSqlQuery query;
+//    query.exec("SELECT * FROM personal_datos;");
+//    while (query.next()) {
+//        QString name = query.value(0).toString();
+//        QString salary = query.value(1).toString();
+//        qDebug() << name << salary;
+//    }
+    for (int mRow = 0; mRow < model->rowCount(); ++mRow)
+    {
+        QStandardItem *m_dni= model->item(mRow,0);
+        QStandardItem *m_nom= model->item(mRow,1);
+        QStandardItem *m_app= model->item(mRow,2);
+        QStandardItem *m_apm= model->item(mRow,3);
+        QStandardItem *m_fna= model->item(mRow,4);
+        QStandardItem *m_fin= model->item(mRow,5);
+        QStandardItem *m_for= model->item(mRow,6);
+        //QStandardItem *m_item = new QStandardItem;
+        //m_item = model->item(mRows,0);
+        db->transaction();
+        query.exec("SELECT personal_add('"+m_dni->text()+
+                      "','"+m_nom->text()+
+                      "','"+m_app->text()+
+                      "','"+m_apm->text()+
+                      "','"+m_fna->text()+
+                      "','"+m_fin->text()+
+                      "',"+m_for->text()+");");
+
+//        query.bindValue(":dni",m_dni->text());
+//        query.bindValue(":nom",m_nom->text());
+//        query.bindValue(":app",m_app->text());
+//        query.bindValue(":apm",m_apm->text());
+//        query.bindValue(":fna",m_fna->text());
+//        query.bindValue(":fin",m_fin->text());
+//        query.bindValue(":for",m_for->text());
+
+        db->commit();
+        query.last();
+
+        qDebug()<<query.lastQuery();
+        qDebug()<<query.lastError();
+        qDebug()<<query.value(0).toString();
+        if (query.value(0).toBool())
+        {
+            QStandardItem *itemV = new QStandardItem("REGISTRADO");
+            model->setItem(mRow ,7,itemV);
+        }else{
+            QStandardItem *itemV = new QStandardItem("DUPLICADO");
+            model->setItem(mRow ,7,itemV);
+
+        }
+        //qDebug()<<query.value(0).toString();
+
+
     }
 
 }
