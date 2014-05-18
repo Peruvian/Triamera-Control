@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Consultar Personal</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -172,7 +172,8 @@ color: rgb(63, 127, 190);</string>
         <widget class="QLabel" name="lblEstado">
          <property name="styleSheet">
           <string notr="true">font: 87 24pt &quot;Arial Black&quot;;
-color: rgb(0, 0, 165);</string>
+color: rgb(199, 0, 3);
+</string>
          </property>
          <property name="text">
           <string>COMERCIAL-FORMACION-BAJA</string>

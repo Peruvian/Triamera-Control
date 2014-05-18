@@ -2,6 +2,13 @@
 #define FRMCONTROL_H
 
 #include <QWidget>
+#include <QDebug>
+
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+
+#include <QMessageBox>
 
 namespace Ui {
 class frmControl;
@@ -15,8 +22,13 @@ public:
     explicit frmControl(QWidget *parent = 0);
     ~frmControl();
 
+private slots:
+    void on_txtDNI_returnPressed();
+
 private:
     Ui::frmControl *ui;
+
+    QSqlDatabase *db;
 };
 
 #endif // FRMCONTROL_H

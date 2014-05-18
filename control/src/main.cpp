@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    wgGestion w;
+    //wgGestion w;
     frmControl wcontrol;
     //w.show();
     wcontrol.show();
