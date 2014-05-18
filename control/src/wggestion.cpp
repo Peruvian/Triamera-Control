@@ -10,6 +10,12 @@ wgGestion::wgGestion(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    modelBajas = new QStandardItemModel(this);
+    HeaderBajas.clear();
+    HeaderBajas << "DNI" << "Fecha Baja" << "BAJA";
+    modelBajas->setHorizontalHeaderLabels(HeaderBajas);
+    ui->grdVBajas->setModel(modelBajas);
+
     model = new QStandardItemModel(this);
     Header.clear();
     Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "Registrado";
@@ -58,12 +64,12 @@ void wgGestion::on_btnAbrir_clicked()
         while (!textStream.atEnd()) {
             textStream >> character;
             if (character == ';') {
-                checkString(temp, character);
+                checkString(*model, temp, character);
             } else if (character == '\n') {
-                checkString(temp, character);
+                checkString(*model,temp, character);
             } else if (textStream.atEnd()) {
                 temp.append(character);
-                checkString(temp);
+                checkString(*model, temp);
             } else {
                 temp.append(character);
             }
@@ -72,12 +78,12 @@ void wgGestion::on_btnAbrir_clicked()
     model->removeRow(0,QModelIndex());
     //QModelIndex index = model->index(0,7);
     //model->setItem(0,8,QStandardItem("Hola"));
-    QStandardItem *itemV = new QStandardItem("V");
-    model->setItem(3,7,itemV);
+//    QStandardItem *itemV = new QStandardItem("V");
+//    model->setItem(3,7,itemV);
 
 }
 
-void wgGestion::checkString(QString &temp, QChar character)
+void wgGestion::checkString(QStandardItemModel &modelBase, QString &temp, QChar character)
 {
     if(temp.count("\"")%2 == 0) {
         //if (temp.size() == 0 && character != ',') //problem with line endings
@@ -91,7 +97,8 @@ void wgGestion::checkString(QString &temp, QChar character)
         QStandardItem *item = new QStandardItem(temp);
         standardItemList.append(item);
         if (character != QChar(';')) {
-            model->appendRow(standardItemList);
+            //modelBase->appendRow(standardItemList);
+            modelBase.appendRow(standardItemList);
             standardItemList.clear();
         }
         temp.clear();
@@ -122,13 +129,13 @@ void wgGestion::on_btnCargar_clicked()
         //QStandardItem *m_item = new QStandardItem;
         //m_item = model->item(mRows,0);
         db->transaction();
-        query.exec("SELECT personal_add('"+m_dni->text()+
-                      "','"+m_nom->text()+
-                      "','"+m_app->text()+
-                      "','"+m_apm->text()+
-                      "','"+m_fna->text()+
-                      "','"+m_fin->text()+
-                      "',"+m_for->text()+");");
+        query.exec("SELECT personal_add('"+m_dni->text().trimmed()+
+                      "','"+m_nom->text().trimmed()+
+                      "','"+m_app->text().trimmed()+
+                      "','"+m_apm->text().trimmed()+
+                      "','"+m_fna->text().trimmed()+
+                      "','"+m_fin->text().trimmed()+
+                      "',"+m_for->text().trimmed()+");");
 
 //        query.bindValue(":dni",m_dni->text());
 //        query.bindValue(":nom",m_nom->text());
@@ -141,9 +148,9 @@ void wgGestion::on_btnCargar_clicked()
         db->commit();
         query.last();
 
-        qDebug()<<query.lastQuery();
-        qDebug()<<query.lastError();
-        qDebug()<<query.value(0).toString();
+//        qDebug()<<query.lastQuery();
+//        qDebug()<<query.lastError();
+//        qDebug()<<query.value(0).toString();
         if (query.value(0).toBool())
         {
             QStandardItem *itemV = new QStandardItem("REGISTRADO");
@@ -158,4 +165,62 @@ void wgGestion::on_btnCargar_clicked()
 
     }
 
+}
+
+void wgGestion::on_btnAbrirBajas_clicked()
+{
+    modelBajas->clear();
+    HeaderBajas.clear();
+    HeaderBajas << "DNI" << "Fecha Baja" << "BAJA";
+    modelBajas->setHorizontalHeaderLabels(HeaderBajas);
+
+    QString fileName = QFileDialog::getOpenFileName (this, "Open CSV file",
+                                                     QDir::currentPath(), "CSV (*.csv)");
+    QFile file (fileName);
+    if (file.open(QIODevice::ReadOnly)) {
+        QString data = file.readAll();
+        data.remove( QRegExp("\r") ); //remove all ocurrences of CR (Carriage Return)
+        QString temp;
+        QChar character;
+        QTextStream textStream(&data);
+        textStream.setCodec("LATIN-1");
+        while (!textStream.atEnd()) {
+            textStream >> character;
+            if (character == ';') {
+                checkString(*modelBajas, temp, character);
+            } else if (character == '\n') {
+                checkString(*modelBajas, temp, character);
+            } else if (textStream.atEnd()) {
+                temp.append(character);
+                checkString(*modelBajas, temp);
+            } else {
+                temp.append(character);
+            }
+        }
+    }
+    modelBajas->removeRow(0,QModelIndex());
+}
+
+void wgGestion::on_btnApplicarBajas_clicked()
+{
+    QSqlQuery queryBaja;
+
+    for (int mRow = 0; mRow < modelBajas->rowCount(); ++mRow)
+    {
+        QStandardItem *m_dniBaja= modelBajas->item(mRow,0);
+        QStandardItem *m_fecBaja= modelBajas->item(mRow,1);
+        db->transaction();
+        queryBaja.exec("SELECT personal_baja('"+m_dniBaja->text().trimmed()+"','"+m_fecBaja->text().trimmed()+"');");
+        db->commit();
+        queryBaja.last();
+        if(queryBaja.value(0).toBool())
+        {
+            QStandardItem *itemB = new QStandardItem("APLICADA");
+            modelBajas->setItem(mRow ,2,itemB);
+        }else{
+            QStandardItem *itemB = new QStandardItem("NO APLICADA");
+            modelBajas->setItem(mRow ,2,itemB);
+        }
+
+    }
 }

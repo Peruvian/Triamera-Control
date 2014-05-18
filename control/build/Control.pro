@@ -12,13 +12,17 @@ TARGET = Control
 TEMPLATE = app
 
 HEADERS += \
-    ../include/wggestion.h
+    ../include/wggestion.h \
+    ../ui/frmcontrol.h \
+    ../include/frmcontrol.h
 
 SOURCES += \
     ../src/wggestion.cpp \
-    ../src/main.cpp
+    ../src/main.cpp \
+    ../src/frmcontrol.cpp
 
 FORMS += \
-    ../ui/wggestion.ui
+    ../ui/wggestion.ui \
+    ../ui/frmcontrol.ui
 
 

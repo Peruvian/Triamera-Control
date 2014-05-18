@@ -29,16 +29,23 @@ public:
 
 private slots:
     void on_btnAbrir_clicked();
-    void checkString(QString &temp, QChar character = 0);
+    void checkString(QStandardItemModel &modelBase,QString &temp, QChar character = 0);
 
     void on_btnCargar_clicked();
+
+
+    void on_btnAbrirBajas_clicked();
+
+    void on_btnApplicarBajas_clicked();
 
 private:
     Ui::wgGestion *ui;
     QList<QStringList> csv;
     QStandardItemModel *model;
+    QStandardItemModel *modelBajas;
     QList<QStandardItem*> standardItemList;
     QStringList Header;
+    QStringList HeaderBajas;
     QSqlDatabase *db;
 
 };
