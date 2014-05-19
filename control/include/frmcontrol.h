@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QDebug>
+#include <QDate>
 
 #include <QSqlDatabase>
 #include <QSqlError>

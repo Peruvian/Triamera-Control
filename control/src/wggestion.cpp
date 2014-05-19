@@ -21,20 +21,21 @@ wgGestion::wgGestion(QWidget *parent) :
     Header << "DNI" << "Nombres" << "Apellido Paterno" << "Apellido Materno" << "Fecha Nacimiento" << "Fecha Ingreso" << "Formacion" << "Registrado";
     model->setHorizontalHeaderLabels(Header);
     ui->grdVData->setModel(model);
-
-    //qDebug() << QSqlDatabase::drivers();
-    //QSqlDatabase db( QSqlDatabase::addDatabase( "QPSQL" ) );
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QPSQL"));
-    //db->addDatabase("QPSQL");
-    db->setHostName("localhost");
+    db->setHostName("PECIXAP001");
     db->setDatabaseName("Triamera-Control");
     db->setUserName("postgres");
     db->setPassword("triamera");
     db->setPort(5432);
 
+
     if (!db->open())
     {
        QMessageBox::critical(0,"Error en Base de Datos","No se pudo establecer conexion con la base de datos", QMessageBox::Ok);
+       QMessageBox msgBox;
+        msgBox.setText(db->lastError().text());
+        msgBox.exec();
+
         ui->tabWidget->setEnabled(false);
     }
 }

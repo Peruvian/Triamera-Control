@@ -5,10 +5,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //wgGestion w;
     frmControl wcontrol;
-    //w.show();
     wcontrol.show();
+    //wgGestion w;
+    //w.show();
+
 
     return a.exec();
 }
