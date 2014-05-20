@@ -23,8 +23,6 @@ frmControl::frmControl(QWidget *parent) :
     ui->lblApMaterno->setText(" ");
     ui->lblFecha->setText(" ");
     ui->lblEstado->setText(" ");
-
-
 }
 
 frmControl::~frmControl()
@@ -51,14 +49,13 @@ void frmControl::on_txtDNI_returnPressed()
         {
             if (query.value(7).toBool())
             {
-                QDate m_fecha = query.value(6).toDate();
+                QDate m_fecha = query.value(5).toDate();
                 ui->lblFecha->setText(m_fecha.toString("dd/MM/yyyy"));
-
                 ui->lblEstado->setStyleSheet("font: 87 24pt ""Arial Black""; color: rgb(255, 175, 46);");
                 ui->lblFecha->setStyleSheet("font: 87 24pt ""Arial Black""; color: rgb(255, 175, 46);");
                 ui->lblEstado->setText("CAPACITACION");
             } else {
-                QDate m_fecha = query.value(6).toDate();
+                QDate m_fecha = query.value(5).toDate();
                 ui->lblFecha->setText(m_fecha.toString("dd/MM/yyyy"));
 
                 ui->lblEstado->setStyleSheet("font: 87 24pt ""Arial Black""; color: rgb(85, 170, 0);");
@@ -69,7 +66,6 @@ void frmControl::on_txtDNI_returnPressed()
         } else {
             QDate m_fecha = query.value(6).toDate();
             ui->lblFecha->setText(m_fecha.toString("dd/MM/yyyy"));
-
             ui->lblEstado->setStyleSheet("font: 87 24pt ""Arial Black""; color: rgb(199, 0, 3);");
             ui->lblFecha->setStyleSheet("font: 87 24pt ""Arial Black""; color: rgb(199, 0, 3);");
             ui->lblEstado->setText("EX TRABAJADOR");
