@@ -7,7 +7,7 @@
 #include <QThread>
 #include <QMutex>
 
-namespace TRI_Logger
+namespace TRIMERA
 {
 
     enum LogLevel {TraceLevel = 0, DebugLevel, InfoLevel, WarnLevel, ErrorLevel, FatalLevel };

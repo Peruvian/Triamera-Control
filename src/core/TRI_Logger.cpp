@@ -4,7 +4,7 @@
 #include "../include/core/TRI_Logger.h"
 #include <QDebug>
 
-namespace TRI_Logger
+namespace TRIMERA
 {
     void TRI_Log_(const QString &module, LogLevel level, const QString &message)
     {

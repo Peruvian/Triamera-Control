@@ -35,6 +35,7 @@ void frmControl::on_txtDNI_returnPressed()
     QSqlQuery query;
     QString m_dni =  ui->txtDNI->text().trimmed();
     query.exec("SELECT * FROM personal_datos WHERE dni::bigint = "+m_dni+"::bigint;");
+    ui->txtDNI->setText("");
     //query.last();
     if (query.size() > 0)
     {
